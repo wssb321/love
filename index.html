@@ -1,21 +1,43 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>💗 我永远为你着迷</title>
+
+    <!-- 微信分享优化 -->
+    <meta property="og:title" content="💗 我永远为你着迷">
+    <meta property="og:description" content="有一份特别的礼物送给你，点开看看~">
+    <meta property="og:image" content="https://picsum.photos/400/400?random=love">
+    <meta property="og:type" content="website">
+
+    <!-- 微信专用 -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             background: #050508;
             overflow: hidden;
-            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', sans-serif;
+            -webkit-overflow-scrolling: touch;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
         }
 
         canvas {
@@ -65,6 +87,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .settings-btn:hover {
@@ -72,7 +95,7 @@
             transform: rotate(30deg);
         }
 
-        /* 音乐控制按钮 */
+        /* 音乐控制按钮 - 原来位置 */
         .music-btn {
             position: absolute;
             top: 20px;
@@ -91,6 +114,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .music-btn:hover {
@@ -104,11 +128,18 @@
         }
 
         @keyframes musicPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4); }
-            50% { box-shadow: 0 0 0 8px rgba(255, 105, 180, 0); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(255, 105, 180, 0);
+            }
         }
 
-        /* 音频可视化条 */
+        /* 音频可视化条 - 原来位置 */
         .music-visualizer {
             position: absolute;
             top: 60px;
@@ -134,15 +165,41 @@
             animation: vizPulse 0.8s ease-in-out infinite alternate;
         }
 
-        .viz-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
-        .viz-bar:nth-child(2) { height: 12px; animation-delay: 0.1s; }
-        .viz-bar:nth-child(3) { height: 8px; animation-delay: 0.2s; }
-        .viz-bar:nth-child(4) { height: 14px; animation-delay: 0.15s; }
-        .viz-bar:nth-child(5) { height: 6px; animation-delay: 0.05s; }
+        .viz-bar:nth-child(1) {
+            height: 6px;
+            animation-delay: 0s;
+        }
+
+        .viz-bar:nth-child(2) {
+            height: 12px;
+            animation-delay: 0.1s;
+        }
+
+        .viz-bar:nth-child(3) {
+            height: 8px;
+            animation-delay: 0.2s;
+        }
+
+        .viz-bar:nth-child(4) {
+            height: 14px;
+            animation-delay: 0.15s;
+        }
+
+        .viz-bar:nth-child(5) {
+            height: 6px;
+            animation-delay: 0.05s;
+        }
 
         @keyframes vizPulse {
-            from { transform: scaleY(0.5); opacity: 0.4; }
-            to { transform: scaleY(1); opacity: 1; }
+            from {
+                transform: scaleY(0.5);
+                opacity: 0.4;
+            }
+
+            to {
+                transform: scaleY(1);
+                opacity: 1;
+            }
         }
 
         /* 设置面板 */
@@ -157,6 +214,7 @@
             border-radius: 16px;
             padding: 24px;
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 105, 180, 0.1);
             opacity: 0;
             visibility: hidden;
@@ -260,7 +318,7 @@
             color: rgba(255, 255, 255, 0.9);
             letter-spacing: 6px;
             margin-bottom: 12px;
-            text-shadow: 
+            text-shadow:
                 0 0 10px rgba(255, 105, 180, 0.6),
                 0 0 20px rgba(255, 105, 180, 0.3);
             opacity: 0;
@@ -276,7 +334,7 @@
             font-weight: 700;
             color: #fff;
             letter-spacing: 8px;
-            text-shadow: 
+            text-shadow:
                 0 0 10px rgba(255, 105, 180, 0.8),
                 0 0 30px rgba(255, 105, 180, 0.6),
                 0 0 60px rgba(255, 105, 180, 0.4),
@@ -310,16 +368,39 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
-            50% { transform: translate(-50%, -50%) translateY(-15px); }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) translateY(-15px);
+            }
         }
 
         @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            15% { transform: scale(1.25); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-            60% { transform: scale(1); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.25);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.15);
+            }
+
+            60% {
+                transform: scale(1);
+            }
         }
 
         /* 角落装饰 */
@@ -338,33 +419,96 @@
             background: rgba(255, 105, 180, 0.5);
         }
 
-        .corner-tl { top: 25px; left: 25px; }
-        .corner-tl::before { width: 1px; height: 100%; left: 0; top: 0; }
-        .corner-tl::after { width: 100%; height: 1px; left: 0; top: 0; }
+        .corner-tl {
+            top: 25px;
+            left: 25px;
+        }
 
-        .corner-tr { top: 25px; right: 25px; }
-        .corner-tr::before { width: 1px; height: 100%; right: 0; top: 0; }
-        .corner-tr::after { width: 100%; height: 1px; right: 0; top: 0; }
+        .corner-tl::before {
+            width: 1px;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
 
-        .corner-bl { bottom: 25px; left: 25px; }
-        .corner-bl::before { width: 1px; height: 100%; left: 0; bottom: 0; }
-        .corner-bl::after { width: 100%; height: 1px; left: 0; bottom: 0; }
+        .corner-tl::after {
+            width: 100%;
+            height: 1px;
+            left: 0;
+            top: 0;
+        }
 
-        .corner-br { bottom: 25px; right: 25px; }
-        .corner-br::before { width: 1px; height: 100%; right: 0; bottom: 0; }
-        .corner-br::after { width: 100%; height: 1px; right: 0; bottom: 0; }
+        .corner-tr {
+            top: 25px;
+            right: 25px;
+        }
+
+        .corner-tr::before {
+            width: 1px;
+            height: 100%;
+            right: 0;
+            top: 0;
+        }
+
+        .corner-tr::after {
+            width: 100%;
+            height: 1px;
+            right: 0;
+            top: 0;
+        }
+
+        .corner-bl {
+            bottom: 25px;
+            left: 25px;
+        }
+
+        .corner-bl::before {
+            width: 1px;
+            height: 100%;
+            left: 0;
+            bottom: 0;
+        }
+
+        .corner-bl::after {
+            width: 100%;
+            height: 1px;
+            left: 0;
+            bottom: 0;
+        }
+
+        .corner-br {
+            bottom: 25px;
+            right: 25px;
+        }
+
+        .corner-br::before {
+            width: 1px;
+            height: 100%;
+            right: 0;
+            bottom: 0;
+        }
+
+        .corner-br::after {
+            width: 100%;
+            height: 1px;
+            right: 0;
+            bottom: 0;
+        }
 
         /* 底部 LOVE YOU */
         .bottom-line {
-            position: absolute;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
+            position: fixed;
+            /* 改为 fixed，避免受 body 宽度影响 */
+            bottom: max(35px, env(safe-area-inset-bottom) + 10px);
+            left: 0;
+            right: 0;
+            width: 100%;
             display: flex;
-            gap: 20px;
+            justify-content: center;
             align-items: center;
+            gap: 20px;
             pointer-events: none;
+            z-index: 20;
         }
 
         .line {
@@ -379,9 +523,92 @@
             letter-spacing: 4px;
             text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .main-text {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+
+            .name-text {
+                font-size: 24px;
+                letter-spacing: 3px;
+            }
+
+            .sub-text {
+                font-size: 14px;
+                letter-spacing: 3px;
+            }
+
+            .settings-panel {
+                width: 260px;
+                right: 10px;
+            }
+        }
+
+        /* 微信引导层 */
+        .wechat-guide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .wechat-guide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .guide-text {
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            line-height: 2;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+        }
+
+        .guide-hint {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin-top: 20px;
+            animation: breathe 2s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
+
 <body>
+    <!-- 微信引导层 -->
+    <div class="wechat-guide" id="wechatGuide">
+        <div class="guide-text">
+            💗 有一份特别的礼物<br>
+            点击屏幕开启音乐
+        </div>
+        <div class="guide-hint">任意位置点击继续</div>
+    </div>
+
     <!-- 矩阵雨背景 -->
     <canvas id="matrixCanvas"></canvas>
     <!-- 爱心粒子画布 -->
@@ -389,7 +616,7 @@
     <!-- 底部渐变遮罩 -->
     <div class="bottom-fade"></div>
 
-    <!-- 音乐控制 -->
+    <!-- 音乐控制 - 原来位置 -->
     <button class="music-btn" id="musicBtn" title="播放/暂停音乐">🎵</button>
     <div class="music-visualizer" id="musicVisualizer">
         <div class="viz-bar"></div>
@@ -401,7 +628,7 @@
 
     <!-- 设置按钮 -->
     <button class="settings-btn" id="settingsBtn" title="设置">⚙</button>
-    
+
     <!-- 设置面板 -->
     <div class="settings-panel" id="settingsPanel">
         <div class="settings-title">✨ 个性化设置</div>
@@ -443,434 +670,474 @@
         <div class="line"></div>
     </div>
 
-    <!-- 背景音乐：修改这里的文件名 -->
-    <audio id="bgMusic" loop>
+    <!-- 背景音乐 -->
+    <audio id="bgMusic" loop preload="auto" playsinline webkit-playsinline x5-playsinline>
         <source src="沦陷.mp3" type="audio/mpeg">
-        <!-- 如果浏览器不支持 MP3，可以尝试其他格式 -->
-        <source src="music.ogg" type="audio/ogg">
     </audio>
 
-<script>
-// ==================== 本地存储 ====================
-function loadSettings() {
-    const saved = localStorage.getItem('loveSettings');
-    if (saved) return JSON.parse(saved);
-    return { 
-        name: '', 
-        mainText: '我永远为你着迷', 
-        subText: 'FOREVER & ALWAYS'
-    };
-}
+    <script>
+        // ==================== 微信环境检测 ====================
+        const isWechat = /MicroMessenger/i.test(navigator.userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-function saveSettings(settings) {
-    localStorage.setItem('loveSettings', JSON.stringify(settings));
-}
+        // ==================== 本地存储 ====================
+        function loadSettings() {
+            const saved = localStorage.getItem('loveSettings');
+            if (saved) return JSON.parse(saved);
+            return { name: '', mainText: '我永远为你着迷', subText: 'FOREVER & ALWAYS' };
+        }
 
-let settings = loadSettings();
+        function saveSettings(settings) {
+            localStorage.setItem('loveSettings', JSON.stringify(settings));
+        }
 
-// ==================== 音乐控制 ====================
-const bgMusic = document.getElementById('bgMusic');
-const musicBtn = document.getElementById('musicBtn');
-const musicVisualizer = document.getElementById('musicVisualizer');
+        let settings = loadSettings();
 
-let isPlaying = false;
+        // ==================== 音乐控制（微信优化版）====================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicVisualizer = document.getElementById('musicVisualizer');
+        const wechatGuide = document.getElementById('wechatGuide');
 
-function toggleMusic() {
-    if (isPlaying) {
-        bgMusic.pause();
-        musicBtn.textContent = '🎵';
-        musicBtn.classList.remove('playing');
-        musicVisualizer.classList.remove('active');
-        isPlaying = false;
-    } else {
-        bgMusic.play().then(() => {
-            musicBtn.textContent = '⏸';
-            musicBtn.classList.add('playing');
-            musicVisualizer.classList.add('active');
-            isPlaying = true;
-        }).catch(err => {
-            console.log('播放失败:', err);
-            musicBtn.textContent = '🔇';
+        let isPlaying = false;
+        let audioInitialized = false;
+
+        function initAudio() {
+            if (audioInitialized) return;
+            bgMusic.load();
+            bgMusic.play().then(() => {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+                audioInitialized = true;
+            }).catch(() => {
+                audioInitialized = true;
+            });
+        }
+
+        function playMusic() {
+            if (!audioInitialized) initAudio();
+
+            bgMusic.play().then(() => {
+                musicBtn.textContent = '⏸';
+                musicBtn.classList.add('playing');
+                musicVisualizer.classList.add('active');
+                isPlaying = true;
+            }).catch(err => {
+                console.log('播放失败:', err);
+                if (isWechat) {
+                    wechatGuide.classList.add('active');
+                }
+            });
+        }
+
+        function pauseMusic() {
+            bgMusic.pause();
+            musicBtn.textContent = '🎵';
+            musicBtn.classList.remove('playing');
+            musicVisualizer.classList.remove('active');
+            isPlaying = false;
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        }
+
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMusic();
         });
-    }
-}
 
-musicBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMusic();
-});
+        // 微信引导层点击
+        wechatGuide.addEventListener('click', () => {
+            wechatGuide.classList.remove('active');
+            playMusic();
+        });
 
-// ==================== 矩阵雨背景 ====================
-const matrixCanvas = document.getElementById('matrixCanvas');
-const ctxMatrix = matrixCanvas.getContext('2d', { alpha: false });
-matrixCanvas.width = window.innerWidth;
-matrixCanvas.height = window.innerHeight;
+        // 首次点击页面初始化音频
+        let firstInteraction = true;
+        document.addEventListener('touchstart', function initOnFirstTouch() {
+            if (firstInteraction) {
+                firstInteraction = false;
+                initAudio();
+                if (isWechat && !isPlaying) {
+                    setTimeout(() => {
+                        wechatGuide.classList.add('active');
+                    }, 500);
+                }
+            }
+        }, { once: true });
 
-const loveTexts = ["L", "O", "V", "E", "I", "U", "♥", "♡", "❤", "💖", "💕", "✦", "✧"];
-const fontSize = 14;
-const drops = [];
-const columns = Math.floor(matrixCanvas.width / fontSize);
+        document.addEventListener('click', function initOnFirstClick() {
+            if (firstInteraction) {
+                firstInteraction = false;
+                initAudio();
+            }
+        }, { once: true });
 
-for (let i = 0; i < columns; i++) {
-    drops[i] = Math.random() * -50;
-}
+        // ==================== 矩阵雨背景 ====================
+        const matrixCanvas = document.getElementById('matrixCanvas');
+        const ctxMatrix = matrixCanvas.getContext('2d', { alpha: false });
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
 
-function drawMatrix() {
-    ctxMatrix.fillStyle = 'rgba(5, 5, 8, 0.08)';
-    ctxMatrix.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-    ctxMatrix.font = `${fontSize}px monospace`;
-    
-    for (let i = 0; i < drops.length; i++) {
-        const text = loveTexts[Math.floor(Math.random() * loveTexts.length)];
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
-        
-        if (y > -fontSize && y < matrixCanvas.height + fontSize) {
-            const isHead = Math.random() > 0.95;
-            ctxMatrix.fillStyle = isHead ? '#ffb6c1' : 'rgba(255, 105, 180, 0.6)';
-            ctxMatrix.fillText(text, x, y);
+        const loveTexts = ["L", "O", "V", "E", "I", "U", "♥", "♡", "❤", "💖", "💕", "✦", "✧"];
+        const fontSize = 14;
+        const drops = [];
+        const columns = Math.floor(matrixCanvas.width / fontSize);
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -50;
         }
-        
-        if (y > matrixCanvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
-        }
-        drops[i] += 0.5;
-    }
-}
 
-// ==================== 爱心粒子系统（第一版风格）====================
-const heartCanvas = document.getElementById('heartCanvas');
-const ctxHeart = heartCanvas.getContext('2d');
-heartCanvas.width = window.innerWidth;
-heartCanvas.height = window.innerHeight;
+        function drawMatrix() {
+            ctxMatrix.fillStyle = 'rgba(5, 5, 8, 0.08)';
+            ctxMatrix.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            ctxMatrix.font = `${fontSize}px monospace`;
 
-const settingsParticles = {
-    length: 500,
-    duration: 2,
-    velocity: 100,
-    effect: -0.75,
-    size: 30
-};
+            for (let i = 0; i < drops.length; i++) {
+                const text = loveTexts[Math.floor(Math.random() * loveTexts.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
 
-// 坐标点类
-class Point {
-    constructor(x = 0, y = 0) {
-        this.x = x;
-        this.y = y;
-    }
-    clone() {
-        return new Point(this.x, this.y);
-    }
-    length(length) {
-        if (typeof length === 'undefined') {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
-        }
-        this.normalize();
-        this.x *= length;
-        this.y *= length;
-        return this;
-    }
-    normalize() {
-        const length = this.length();
-        this.x /= length;
-        this.y /= length;
-        return this;
-    }
-}
+                if (y > -fontSize && y < matrixCanvas.height + fontSize) {
+                    const isHead = Math.random() > 0.95;
+                    ctxMatrix.fillStyle = isHead ? '#ffb6c1' : 'rgba(255, 105, 180, 0.6)';
+                    ctxMatrix.fillText(text, x, y);
+                }
 
-// 粒子类
-class Particle {
-    constructor() {
-        this.position = new Point();
-        this.velocity = new Point();
-        this.acceleration = new Point();
-        this.age = 0;
-    }
-    initialize(x, y, dx, dy) {
-        this.position.x = x;
-        this.position.y = y;
-        this.velocity.x = dx;
-        this.velocity.y = dy;
-        this.acceleration.x = dx * settingsParticles.effect;
-        this.acceleration.y = dy * settingsParticles.effect;
-        this.age = 0;
-    }
-    update(deltaTime) {
-        this.position.x += this.velocity.x * deltaTime;
-        this.position.y += this.velocity.y * deltaTime;
-        this.velocity.x += this.acceleration.x * deltaTime;
-        this.velocity.y += this.acceleration.y * deltaTime;
-        this.age += deltaTime;
-    }
-    draw(context, image) {
-        function ease(t) {
-            return (--t) * t * t + 1;
-        }
-        const size = image.width * ease(this.age / settingsParticles.duration);
-        context.globalAlpha = 1 - this.age / settingsParticles.duration;
-        context.drawImage(
-            image,
-            this.position.x - size / 2,
-            this.position.y - size / 2,
-            size,
-            size
-        );
-    }
-}
-
-// 粒子池
-class ParticlePool {
-    constructor(length) {
-        this.particles = new Array(length);
-        this.firstActive = 0;
-        this.firstFree = 0;
-        for (let i = 0; i < length; i++) {
-            this.particles[i] = new Particle();
-        }
-    }
-    add(x, y, dx, dy) {
-        this.particles[this.firstFree].initialize(x, y, dx, dy);
-        this.firstFree++;
-        if (this.firstFree === this.particles.length) this.firstFree = 0;
-        if (this.firstActive === this.firstFree) this.firstActive++;
-        if (this.firstActive === this.particles.length) this.firstActive = 0;
-    }
-    update(deltaTime) {
-        let i;
-        if (this.firstActive < this.firstFree) {
-            for (i = this.firstActive; i < this.firstFree; i++) {
-                this.particles[i].update(deltaTime);
+                if (y > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i] += 0.5;
             }
         }
-        if (this.firstFree <= this.firstActive) {
-            for (i = this.firstActive; i < this.particles.length; i++) {
-                this.particles[i].update(deltaTime);
+
+        // ==================== 爱心粒子系统 ====================
+        const heartCanvas = document.getElementById('heartCanvas');
+        const ctxHeart = heartCanvas.getContext('2d');
+        heartCanvas.width = window.innerWidth;
+        heartCanvas.height = window.innerHeight;
+
+        const settingsParticles = {
+            length: 500,
+            duration: 2,
+            velocity: 100,
+            effect: -0.75,
+            size: 30
+        };
+
+        class Point {
+            constructor(x = 0, y = 0) {
+                this.x = x;
+                this.y = y;
             }
-            for (i = 0; i < this.firstFree; i++) {
-                this.particles[i].update(deltaTime);
+            clone() {
+                return new Point(this.x, this.y);
+            }
+            length(length) {
+                if (typeof length === 'undefined') {
+                    return Math.sqrt(this.x * this.x + this.y * this.y);
+                }
+                this.normalize();
+                this.x *= length;
+                this.y *= length;
+                return this;
+            }
+            normalize() {
+                const length = this.length();
+                this.x /= length;
+                this.y /= length;
+                return this;
             }
         }
-        while (this.particles[this.firstActive].age >= settingsParticles.duration) {
-            this.firstActive++;
-            if (this.firstActive === this.particles.length) this.firstActive = 0;
-        }
-    }
-    draw(context, image) {
-        if (this.firstActive < this.firstFree) {
-            for (let i = this.firstActive; i < this.firstFree; i++) {
-                this.particles[i].draw(context, image);
+
+        class Particle {
+            constructor() {
+                this.position = new Point();
+                this.velocity = new Point();
+                this.acceleration = new Point();
+                this.age = 0;
+            }
+            initialize(x, y, dx, dy) {
+                this.position.x = x;
+                this.position.y = y;
+                this.velocity.x = dx;
+                this.velocity.y = dy;
+                this.acceleration.x = dx * settingsParticles.effect;
+                this.acceleration.y = dy * settingsParticles.effect;
+                this.age = 0;
+            }
+            update(deltaTime) {
+                this.position.x += this.velocity.x * deltaTime;
+                this.position.y += this.velocity.y * deltaTime;
+                this.velocity.x += this.acceleration.x * deltaTime;
+                this.velocity.y += this.acceleration.y * deltaTime;
+                this.age += deltaTime;
+            }
+            draw(context, image) {
+                function ease(t) {
+                    return (--t) * t * t + 1;
+                }
+                const size = image.width * ease(this.age / settingsParticles.duration);
+                context.globalAlpha = 1 - this.age / settingsParticles.duration;
+                context.drawImage(
+                    image,
+                    this.position.x - size / 2,
+                    this.position.y - size / 2,
+                    size,
+                    size
+                );
             }
         }
-        if (this.firstFree <= this.firstActive) {
-            for (let i = this.firstActive; i < this.particles.length; i++) {
-                this.particles[i].draw(context, image);
+
+        class ParticlePool {
+            constructor(length) {
+                this.particles = new Array(length);
+                this.firstActive = 0;
+                this.firstFree = 0;
+                for (let i = 0; i < length; i++) {
+                    this.particles[i] = new Particle();
+                }
             }
-            for (let i = 0; i < this.firstFree; i++) {
-                this.particles[i].draw(context, image);
+            add(x, y, dx, dy) {
+                this.particles[this.firstFree].initialize(x, y, dx, dy);
+                this.firstFree++;
+                if (this.firstFree === this.particles.length) this.firstFree = 0;
+                if (this.firstActive === this.firstFree) this.firstActive++;
+                if (this.firstActive === this.particles.length) this.firstActive = 0;
+            }
+            update(deltaTime) {
+                let i;
+                if (this.firstActive < this.firstFree) {
+                    for (i = this.firstActive; i < this.firstFree; i++) {
+                        this.particles[i].update(deltaTime);
+                    }
+                }
+                if (this.firstFree <= this.firstActive) {
+                    for (i = this.firstActive; i < this.particles.length; i++) {
+                        this.particles[i].update(deltaTime);
+                    }
+                    for (i = 0; i < this.firstFree; i++) {
+                        this.particles[i].update(deltaTime);
+                    }
+                }
+                while (this.particles[this.firstActive].age >= settingsParticles.duration) {
+                    this.firstActive++;
+                    if (this.firstActive === this.particles.length) this.firstActive = 0;
+                }
+            }
+            draw(context, image) {
+                if (this.firstActive < this.firstFree) {
+                    for (let i = this.firstActive; i < this.firstFree; i++) {
+                        this.particles[i].draw(context, image);
+                    }
+                }
+                if (this.firstFree <= this.firstActive) {
+                    for (let i = this.firstActive; i < this.particles.length; i++) {
+                        this.particles[i].draw(context, image);
+                    }
+                    for (let i = 0; i < this.firstFree; i++) {
+                        this.particles[i].draw(context, image);
+                    }
+                }
             }
         }
-    }
-}
 
-// 生成爱心形状的粒子图片
-function createHeartImage() {
-    const canvas = document.createElement('canvas');
-    const size = settingsParticles.size;
-    canvas.width = canvas.height = size;
-    const context = canvas.getContext('2d');
+        function createHeartImage() {
+            const canvas = document.createElement('canvas');
+            const size = settingsParticles.size;
+            canvas.width = canvas.height = size;
+            const context = canvas.getContext('2d');
 
-    function to(t) {
-        const x = 16 * Math.pow(Math.sin(t), 3);
-        const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-        return new Point(size / 2 + x * size / 35, size / 2 - y * size / 35);
-    }
+            function to(t) {
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                return new Point(size / 2 + x * size / 35, size / 2 - y * size / 35);
+            }
 
-    context.beginPath();
-    let t = -Math.PI;
-    let point = to(t);
-    context.moveTo(point.x, point.y);
-    while (t < Math.PI) {
-        t += 0.01;
-        point = to(t);
-        context.lineTo(point.x, point.y);
-    }
-    context.closePath();
-    context.fillStyle = '#ea80b0';
-    context.fill();
+            context.beginPath();
+            let t = -Math.PI;
+            let point = to(t);
+            context.moveTo(point.x, point.y);
+            while (t < Math.PI) {
+                t += 0.01;
+                point = to(t);
+                context.lineTo(point.x, point.y);
+            }
+            context.closePath();
+            context.fillStyle = '#ea80b0';
+            context.fill();
 
-    const image = new Image();
-    image.src = canvas.toDataURL();
-    return image;
-}
+            const image = new Image();
+            image.src = canvas.toDataURL();
+            return image;
+        }
 
-// 爱心坐标点计算
-function toHeartPoint(t) {
-    const x = 16 * Math.pow(Math.sin(t), 3);
-    const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-    return new Point(x * 5, y * 5);
-}
+        function toHeartPoint(t) {
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+            return new Point(x * 5, y * 5);
+        }
 
-// 初始化
-const particles = new ParticlePool(settingsParticles.length);
-const heartImage = createHeartImage();
-let time = new Date().getTime() / 1000;
+        const particles = new ParticlePool(settingsParticles.length);
+        const heartImage = createHeartImage();
+        let time = new Date().getTime() / 1000;
 
-// 爱心粒子动画循环
-function renderHeart() {
-    requestAnimationFrame(renderHeart);
-    const newTime = new Date().getTime() / 1000;
-    const deltaTime = newTime - (time || newTime);
-    time = newTime;
+        function renderHeart() {
+            requestAnimationFrame(renderHeart);
+            const newTime = new Date().getTime() / 1000;
+            const deltaTime = newTime - (time || newTime);
+            time = newTime;
 
-    ctxHeart.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
+            ctxHeart.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
 
-    // 生成新粒子
-    const particleRate = settingsParticles.length / settingsParticles.duration;
-    const amount = particleRate * deltaTime;
-    for (let i = 0; i < amount; i++) {
-        const pos = toHeartPoint(Math.PI - 2 * Math.PI * Math.random());
-        const dir = pos.clone().length(settingsParticles.velocity);
-        particles.add(
-            heartCanvas.width / 2 + pos.x,
-            heartCanvas.height / 2 + pos.y,
-            dir.x,
-            dir.y
-        );
-    }
+            const particleRate = settingsParticles.length / settingsParticles.duration;
+            const amount = particleRate * deltaTime;
+            for (let i = 0; i < amount; i++) {
+                const pos = toHeartPoint(Math.PI - 2 * Math.PI * Math.random());
+                const dir = pos.clone().length(settingsParticles.velocity);
+                particles.add(
+                    heartCanvas.width / 2 + pos.x,
+                    heartCanvas.height / 2 + pos.y,
+                    dir.x,
+                    dir.y
+                );
+            }
 
-    particles.update(deltaTime);
-    heartImage.onload = () => particles.draw(ctxHeart, heartImage);
-    if (heartImage.complete) particles.draw(ctxHeart, heartImage);
-}
+            particles.update(deltaTime);
+            heartImage.onload = () => particles.draw(ctxHeart, heartImage);
+            if (heartImage.complete) particles.draw(ctxHeart, heartImage);
+        }
 
-renderHeart();
+        renderHeart();
 
-// ==================== 文字更新 ====================
-function updateText() {
-    const nameText = document.getElementById('nameText');
-    const mainTextContent = document.getElementById('mainTextContent');
-    const subText = document.getElementById('subText');
-    
-    if (settings.name && settings.name.trim()) {
-        nameText.textContent = settings.name + '，';
-        nameText.style.display = 'block';
-    } else {
-        nameText.style.display = 'none';
-    }
-    
-    mainTextContent.textContent = settings.mainText || '我永远为你着迷';
-    subText.textContent = settings.subText || 'FOREVER & ALWAYS';
-    
-    document.getElementById('nameInput').value = settings.name || '';
-    document.getElementById('mainTextInput').value = settings.mainText || '';
-    document.getElementById('subTextInput').value = settings.subText || '';
-}
+        // ==================== 文字更新 ====================
+        function updateText() {
+            const nameText = document.getElementById('nameText');
+            const mainTextContent = document.getElementById('mainTextContent');
+            const subText = document.getElementById('subText');
 
-// ==================== 设置面板交互 ====================
-const settingsBtn = document.getElementById('settingsBtn');
-const settingsPanel = document.getElementById('settingsPanel');
-const saveBtn = document.getElementById('saveBtn');
-const textOverlay = document.getElementById('textOverlay');
+            if (settings.name && settings.name.trim()) {
+                nameText.textContent = settings.name + '，';
+                nameText.style.display = 'block';
+            } else {
+                nameText.style.display = 'none';
+            }
 
-let panelOpen = false;
+            mainTextContent.textContent = settings.mainText || '我永远为你着迷';
+            subText.textContent = settings.subText || 'FOREVER & ALWAYS';
 
-function togglePanel() {
-    panelOpen = !panelOpen;
-    settingsPanel.classList.toggle('active', panelOpen);
-}
+            document.getElementById('nameInput').value = settings.name || '';
+            document.getElementById('mainTextInput').value = settings.mainText || '';
+            document.getElementById('subTextInput').value = settings.subText || '';
+        }
 
-function closePanel() {
-    panelOpen = false;
-    settingsPanel.classList.remove('active');
-}
+        // ==================== 设置面板交互 ====================
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const saveBtn = document.getElementById('saveBtn');
+        const textOverlay = document.getElementById('textOverlay');
 
-settingsBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    togglePanel();
-});
+        let panelOpen = false;
 
-saveBtn.addEventListener('click', () => {
-    settings.name = document.getElementById('nameInput').value.trim();
-    settings.mainText = document.getElementById('mainTextInput').value.trim() || '我永远为你着迷';
-    settings.subText = document.getElementById('subTextInput').value.trim() || 'FOREVER & ALWAYS';
-    saveSettings(settings);
-    updateText();
-    closePanel();
-    
-    // 重新触发动画
-    document.getElementById('nameText').classList.remove('visible');
-    document.getElementById('mainText').classList.remove('visible');
-    document.getElementById('subText').classList.remove('visible');
-    setTimeout(() => {
-        document.getElementById('nameText').classList.add('visible');
-        document.getElementById('mainText').classList.add('visible');
-        document.getElementById('subText').classList.add('visible');
-    }, 100);
-});
+        function togglePanel() {
+            panelOpen = !panelOpen;
+            settingsPanel.classList.toggle('active', panelOpen);
+        }
 
-document.addEventListener('click', (e) => {
-    if (panelOpen && !settingsPanel.contains(e.target) && e.target !== settingsBtn) {
-        closePanel();
-    }
-});
+        function closePanel() {
+            panelOpen = false;
+            settingsPanel.classList.remove('active');
+        }
 
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closePanel();
-});
+        settingsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePanel();
+        });
 
-// 双击文字快速编辑（无提示）
-textOverlay.addEventListener('dblclick', () => {
-    togglePanel();
-    document.getElementById('nameInput').focus();
-});
+        saveBtn.addEventListener('click', () => {
+            settings.name = document.getElementById('nameInput').value.trim();
+            settings.mainText = document.getElementById('mainTextInput').value.trim() || '我永远为你着迷';
+            settings.subText = document.getElementById('subTextInput').value.trim() || 'FOREVER & ALWAYS';
+            saveSettings(settings);
+            updateText();
+            closePanel();
 
-// ==================== 点击爱心爆发 ====================
-document.addEventListener('click', (e) => {
-    if (e.clientY > window.innerHeight - 80) return;
-    if (panelOpen && settingsPanel.contains(e.target)) return;
-    if (e.target === settingsBtn || e.target === musicBtn) return;
-    
-    const burstCount = 20;
-    for (let i = 0; i < burstCount; i++) {
-        const pos = toHeartPoint(Math.PI - 2 * Math.PI * Math.random());
-        const dir = pos.clone().length(settingsParticles.velocity * (0.8 + Math.random() * 0.5));
-        particles.add(
-            e.clientX + pos.x * 0.3,
-            e.clientY + pos.y * 0.3,
-            dir.x,
-            dir.y
-        );
-    }
-});
+            document.getElementById('nameText').classList.remove('visible');
+            document.getElementById('mainText').classList.remove('visible');
+            document.getElementById('subText').classList.remove('visible');
+            setTimeout(() => {
+                document.getElementById('nameText').classList.add('visible');
+                document.getElementById('mainText').classList.add('visible');
+                document.getElementById('subText').classList.add('visible');
+            }, 100);
+        });
 
-// ==================== 主循环（矩阵雨）====================
-function loop() {
-    requestAnimationFrame(loop);
-    drawMatrix();
-}
+        document.addEventListener('click', (e) => {
+            if (panelOpen && !settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+                closePanel();
+            }
+        });
 
-// ==================== 初始化 ====================
-updateText();
-loop();
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePanel();
+        });
 
-// ==================== 窗口自适应 ====================
-window.addEventListener('resize', () => {
-    matrixCanvas.width = window.innerWidth;
-    matrixCanvas.height = window.innerHeight;
-    heartCanvas.width = window.innerWidth;
-    heartCanvas.height = window.innerHeight;
-    
-    const newColumns = Math.floor(matrixCanvas.width / fontSize);
-    drops.length = 0;
-    for (let i = 0; i < newColumns; i++) drops[i] = Math.random() * -50;
-});
+        textOverlay.addEventListener('dblclick', () => {
+            togglePanel();
+            document.getElementById('nameInput').focus();
+        });
 
-// 文字渐入
-setTimeout(() => {
-    document.getElementById('nameText').classList.add('visible');
-    document.getElementById('mainText').classList.add('visible');
-    document.getElementById('subText').classList.add('visible');
-}, 800);
-</script>
+        // ==================== 点击爱心爆发 ====================
+        document.addEventListener('click', (e) => {
+            if (e.clientY > window.innerHeight - 80) return;
+            if (panelOpen && settingsPanel.contains(e.target)) return;
+            if (e.target === settingsBtn || e.target === musicBtn) return;
+            if (e.target.closest('.wechat-guide')) return;
+
+            const burstCount = 20;
+            for (let i = 0; i < burstCount; i++) {
+                const pos = toHeartPoint(Math.PI - 2 * Math.PI * Math.random());
+                const dir = pos.clone().length(settingsParticles.velocity * (0.8 + Math.random() * 0.5));
+                particles.add(
+                    e.clientX + pos.x * 0.3,
+                    e.clientY + pos.y * 0.3,
+                    dir.x,
+                    dir.y
+                );
+            }
+        });
+
+        // ==================== 主循环 ====================
+        function loop() {
+            requestAnimationFrame(loop);
+            drawMatrix();
+        }
+
+        updateText();
+        loop();
+
+        window.addEventListener('resize', () => {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+            heartCanvas.width = window.innerWidth;
+            heartCanvas.height = window.innerHeight;
+
+            const newColumns = Math.floor(matrixCanvas.width / fontSize);
+            drops.length = 0;
+            for (let i = 0; i < newColumns; i++) drops[i] = Math.random() * -50;
+        });
+
+        setTimeout(() => {
+            document.getElementById('nameText').classList.add('visible');
+            document.getElementById('mainText').classList.add('visible');
+            document.getElementById('subText').classList.add('visible');
+        }, 800);
+    </script>
 </body>
+
 </html>
